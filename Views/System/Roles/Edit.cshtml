@@ -1,0 +1,60 @@
+﻿@using SysAdmDip4.Data
+@inject SysAdmDip4Context _context
+@model SysAdmDip4.Models.System.Role;
+@{
+    ViewData["Title"] = "Edit";
+    var allFunction = _context.Function.ToList();
+}
+
+<h1>Edit</h1>
+
+<h4>Role</h4>
+<hr />
+@if (ViewBag.Danger != null)
+{
+    <p class="alert-danger">@ViewBag.Danger</p>
+}
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Role_Id" />
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-danger">Back to List</a>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Role_Name" class="control-label"></label>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <input asp-for="Role_Name" class="form-control" />
+                <span asp-validation-for="Role_Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Role_Describe" class="control-label"></label>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <input asp-for="Role_Describe" class="form-control" />
+                <span asp-validation-for="Role_Describe" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @for (int i = 0; i < allFunction.Count; i++)
+        {
+            var isChecked = Model.RoleFunctions != null && Model.RoleFunctions.Any(rf => rf.FunctionId == allFunction[i].Function_Id);
+            <div>
+                <input type="checkbox" id="function-@i" name="selectedFunctions" value="@allFunction[i].Function_Id" @(isChecked ? "checked" : "")>
+                <label for="function-@i">@allFunction[i].Function_Name</label>
+            </div>
+        }
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

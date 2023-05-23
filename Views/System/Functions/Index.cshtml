@@ -1,0 +1,78 @@
+﻿@model IEnumerable<SysAdmDip4.Models.System.Function>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Controller)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Page)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Describe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_CreaterId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Function_CreateDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Controller)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Page)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Describe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_CreaterId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Function_CreateDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Function_Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Function_Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Function_Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

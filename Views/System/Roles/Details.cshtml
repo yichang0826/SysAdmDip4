@@ -1,0 +1,45 @@
+﻿@*@model SysAdmDip4.Models.System.Role;*@
+@using SysAdmDip4.Models.ViewModel;
+@model RoleDetailViewModel
+@using SysAdmDip4.Data
+@inject SysAdmDip4Context _context
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Role</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.role.Role_Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.role.Role_Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.role.Role_Describe)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.role.Role_Describe)
+        </dd>
+        <div>
+            <dt>RoleFunctions</dt>
+
+            @if (Model.role.RoleFunctions != null)
+            {
+                foreach (var item in Model.role.RoleFunctions)
+                {
+                    <dd>@item.FunctionId@(_context.Function.Find(item.FunctionId).Function_Name)</dd>
+                }
+            }
+        </div>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.role.Role_Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

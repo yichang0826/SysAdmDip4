@@ -1,0 +1,105 @@
+﻿@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore;
+@using SysAdmDip4.Data
+@inject SysAdmDip4Context _context
+@{
+    var roleId = _context.Member?.FirstOrDefault(m => m.Member_Name == User.Identity.Name)?.Member_RoleId;
+    var role = _context.Role.Include(n => n.RoleFunctions).FirstOrDefault(n => n.Role_Id == roleId);
+    var functionIds = role.RoleFunctions.Select(r => r.FunctionId).ToList();
+    var functions = _context.Function.Where(f => functionIds.Contains(f.Function_Id)).ToList();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SysAdmDip4</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SysAdmDip4.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SysAdmDip4</a>*@
+                <h3>SysAdmDip4</h3>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("Home")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Home<i class="bi bi-caret-down"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                                    @foreach (var item in functions)
+                                    {
+                                        if (item.Function_Controller == "Home")
+                                        {
+                                            <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        
+                        @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("Members")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Member<i class="bi bi-caret-down"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                                    @foreach (var item in functions)
+                                    {
+                                        if (item.Function_Controller == "Members")
+                                        {
+                                            <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Functions" asp-action="Index">Functions</a>
+                        </li>
+                    </ul>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Login"><small>Logout</small></a>
+                    <a class="navbar-brand">@User.Identity.Name</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                }
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - SysAdmDip4 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

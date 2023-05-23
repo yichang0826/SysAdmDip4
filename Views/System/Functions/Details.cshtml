@@ -1,0 +1,60 @@
+﻿@model SysAdmDip4.Models.System.Function
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Function</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_Controller)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_Controller)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_Page)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_Page)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_Describe)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_Describe)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_Active)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_Active)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_CreaterId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_CreaterId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Function_CreateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Function_CreateDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Function_Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

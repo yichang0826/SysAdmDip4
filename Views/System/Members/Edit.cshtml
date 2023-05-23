@@ -1,0 +1,69 @@
+﻿@model SysAdmDip4.Models.System.Member
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Member</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Member_Id" />
+            <div class="form-group">
+                <label asp-for="Member_Name" class="control-label"></label>
+                <input asp-for="Member_Name" class="form-control" />
+                <span asp-validation-for="Member_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_Account" class="control-label"></label>
+                <input asp-for="Member_Account" class="form-control" />
+                <span asp-validation-for="Member_Account" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_Password" class="control-label"></label>
+                <input asp-for="Member_Password" class="form-control" />
+                <span asp-validation-for="Member_Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_Email" class="control-label"></label>
+                <input asp-for="Member_Email" class="form-control" />
+                <span asp-validation-for="Member_Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_RoleId" class="control-label"></label>
+                <select asp-for="Member_RoleId" class="form-control" asp-items="ViewBag.Member_RoleId"></select>
+                <span asp-validation-for="Member_RoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_Active" class="control-label"></label>
+                <input asp-for="Member_Active" class="form-control" />
+                <span asp-validation-for="Member_Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_CreaterId" class="control-label"></label>
+                <input asp-for="Member_CreaterId" class="form-control" />
+                <span asp-validation-for="Member_CreaterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member_CreateDate" class="control-label"></label>
+                <input asp-for="Member_CreateDate" class="form-control" />
+                <span asp-validation-for="Member_CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

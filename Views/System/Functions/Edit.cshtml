@@ -1,0 +1,64 @@
+﻿@model SysAdmDip4.Models.System.Function
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Function</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Function_Id" />
+            <div class="form-group">
+                <label asp-for="Function_Name" class="control-label"></label>
+                <input asp-for="Function_Name" class="form-control" />
+                <span asp-validation-for="Function_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_Controller" class="control-label"></label>
+                <input asp-for="Function_Controller" class="form-control" />
+                <span asp-validation-for="Function_Controller" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_Page" class="control-label"></label>
+                <input asp-for="Function_Page" class="form-control" />
+                <span asp-validation-for="Function_Page" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_Describe" class="control-label"></label>
+                <input asp-for="Function_Describe" class="form-control" />
+                <span asp-validation-for="Function_Describe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_Active" class="control-label"></label>
+                <input asp-for="Function_Active" class="form-control" />
+                <span asp-validation-for="Function_Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_CreaterId" class="control-label"></label>
+                <input asp-for="Function_CreaterId" class="form-control" />
+                <span asp-validation-for="Function_CreaterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Function_CreateDate" class="control-label"></label>
+                <input asp-for="Function_CreateDate" class="form-control" />
+                <span asp-validation-for="Function_CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
