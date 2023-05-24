@@ -3,7 +3,7 @@
 文章張貼 Knowlege
 
 Member: 
-  [key] int Member_Id
+  [key] int Member_Id /n
   string Member_Name
   string Member_Account
   string Member_Password
