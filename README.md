@@ -2,8 +2,8 @@
 
 文章張貼 Knowlege
 
-Member: 
-  [key] int Member_Id /n
+## Member: 
+  [key] int Member_Id
   string Member_Name
   string Member_Account
   string Member_Password
@@ -13,7 +13,7 @@ Member:
   int Member_CreaterId
   DateTime Member_CreateDate
   List<MemberKnowlege> MemberKnowlege
-MemberKnowlege:
+## MemberKnowlege:
   [key] int MemberKnowlege_Id
   int MemberId
   int KnowlegeId
