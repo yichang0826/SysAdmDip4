@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@using SysAdmDip4.Data
+@inject SysAdmDip4Context _context
+@{
+    var links = _context.ExternalLink.Where(m => m.Link_IsActive == true).ToList();
+}
+<div class="row">
+    <footer class="border-top footer text-muted">
+        <div class="container col">
+            &copy; 2023 - SysAdmDip4 inc. All Rights Reserved. - Link:
+            @foreach (var item in links)
+            {
+                <a href="@item.Link_Url">@item.Link_Name</a>
+                <label>&#8226;</label>
+            }
+
+        </div>
+    </footer>
+</div>
+
+<style>
+    footer {
+        background-color: white;
+        /*position: absolute;*/
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        line-height: 60px; /* 將文本垂直置中 */
+        white-space: nowrap;
+    }
+</style>

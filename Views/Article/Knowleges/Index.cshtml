@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SysAdmDip4.Models.Article.Knowlege>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Home</h1>
+
+<div class="row">
+    <div class="col-8">
+        <input id="SearckKey" name="SearckKey" class="input-group"
+               placeholder="Please enter Keywords, Authors, or Tags Multiple inputs separated by commans" />
+    </div>
+    <div class="col-4">
+        <button id="SearckBut" name="SearckBut" class="btn btn-primary">Search</button>
+        <button id="SearckBut" name="SearckBut" class="btn btn-primary">Advanced Search</button>
+        <button id="SearckBut" name="SearckBut" class="btn btn-primary">More</button>
+    </div>
+</div>
+<div class="row" id="maintable">
+    <div class="col-6" style="padding:10px;">
+        <h4><strong>Latest Knowlege</strong></h4>
+        <hr />
+        <table class="table">
+            <tbody>
+                @foreach (var item in Model.OrderByDescending(e => e.Knowlege_Id).Where(m => m.Knowlege_Transparency == 3).Select((value, index) => new { Value = value, Index = index }).Take(6))
+                {
+                    <tr style="background-color: @(item.Index % 2 == 0 ? "" : "antiquewhite")">
+                        <td>
+                            <a asp-action="KnowlegeDetail" asp-controller="Home" asp-route-id="@item.Value.Knowlege_Id">
+                                @Html.DisplayFor(modelItem => item.Value.Knowlege_Title)
+                            </a>
+                        </td>
+                        <td style="text-align:center">
+                            @Html.DisplayFor(modelItem => item.Value.Knowlege_CreateDate)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-6" style="padding:10px;">
+        <h4><strong>Hot Knowlege</strong></h4>
+        <hr />
+        <table class="table">
+            <tbody>
+                @foreach (var item in Model.OrderByDescending(e => e.Knowlege_ViewCount).Where(m => m.Knowlege_Transparency == 3).Select((value, index) => new { Value = value, Index = index }).Take(6))
+                {
+                    <tr style="background-color: @(item.Index % 2 == 0 ? "" : "antiquewhite")">
+                        <td>
+                            <a asp-action="KnowlegeDetail" asp-controller="Home" asp-route-id="@item.Value.Knowlege_Id">
+                                @Html.DisplayFor(modelItem => item.Value.Knowlege_Title)
+                            </a>
+                        </td>
+                        <td style="text-align:center">
+                            @item.Value.Knowlege_Comment.Count.ToString() Comments
+                            @item.Value.Knowlege_ViewCount.ToString() View
+                        </td>
+                    </tr>
+                }
+                @*@foreach (var item in Model.OrderBy(e => e.Knowlege_Comment.Count()))
+                {
+                <tr>
+                <td>
+                @Html.DisplayFor(modelItem => item.Knowlege_Title)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Knowlege_Introduction)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Knowlege_CreateDate)
+                </td>
+                </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    #maintable {
+        background-color: aliceblue;
+    }
+</style>

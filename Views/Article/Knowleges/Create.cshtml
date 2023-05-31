@@ -1,0 +1,176 @@
+﻿@model SysAdmDip4.Models.Article.Knowlege
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form id="createForm" asp-action="Create">
+    <div style="background-color:lightcyan">
+        <h4>Create Knowlege</h4>
+        <div class="form-group">
+            <button id="submitBtn" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-danger">Back to List</a>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_Title" class="control-label"></label>
+            <input asp-for="Knowlege_Title" class="form-control" />
+            <span asp-validation-for="Knowlege_Title" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_Author" class="control-label"></label>
+            <input asp-for="Knowlege_Author" class="form-control" value="@User.Identity.Name" />
+            <span asp-validation-for="Knowlege_Author" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Knowlege_Introduction" class="control-label"></label>
+        <textarea asp-for="Knowlege_Introduction" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Knowlege_Introduction" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Knowlege_Content" class="control-label"></label>
+        <textarea class="form-control" name="Knowlege_Content" id="editor" data-val-ignore="true" onchange="ContentChange()"></textarea>
+        <input type="hidden" asp-for="Knowlege_Content" id="KnowlegeContent" />
+        @*<input class="form-control" name="KnowlegeContent" id="editor" data-val-ignore="true" onchange="ContentChange()" />*@
+        <span asp-validation-for="Knowlege_Content" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_FileSrc" class="control-label"></label>
+            <input type="file" id="fileInput" onchange="showFileInfo()" name="kfhyperlink" class="form-control" />
+            <span asp-validation-for="Knowlege_FileSrc" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_Transparency" class="control-label"></label>
+            <div class="form-group">
+                <input type="radio" value="1" asp-for="Knowlege_Transparency" checked />Draft
+                <input type="radio" value="2" asp-for="Knowlege_Transparency" />Private
+                <input type="radio" value="3" asp-for="Knowlege_Transparency" />Public
+            </div>
+            <span asp-validation-for="Knowlege_Transparency" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;background-color:lightcyan">
+        <div id="fileInfoname" class="col-8"></div>
+        <div id="fileInfosize" class="col-4"></div>
+    </div>
+</form>
+
+<script src="~/lib/ckeditor5/build/ckeditor.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    //items: [
+                    //    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    //    '|', 'alignment', 'outdent', 'indent', '|', 'fontSize', 'fontColor',
+                    //    '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed',
+                    //    'undo', 'redo'
+                    //]
+                    items: [
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        '|', 'alignment', '|', 'fontSize', 'fontColor',
+                        '|', 'blockQuote', 'undo', 'redo'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative', 'imageStyle:inline',
+                        'imageStyle:block', 'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn', 'tableRow', 'mergeTableCells'
+                    ],
+                },
+                licenseKey: '',
+                config: {
+                    // 在這裡設置 CKEditor 的行數
+                    height: '7em'
+                }
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!');
+                console.error(error);
+            });
+
+        //document.getElementById("createForm").addEventListener("submit", function (event) {
+        //    event.preventDefault(); // 防止表單自動提交
+
+        //    // 取得表單元素和值
+        //    var form = event.target;
+        //    var formData = new FormData(form);
+
+        //    // 使用Ajax提交表單
+        //    $.ajax({
+        //        url: form.action,
+        //        type: form.method,
+        //        data: formData,
+        //        processData: false, // 不處理表單數據
+        //        contentType: false, // 不設置內容類型
+        //        success: function (result) {
+        //            // 提交成功後的處理邏輯
+        //            // 可以根據需要進行頁面重整或顯示成功訊息等
+        //        },
+        //        error: function (xhr, status, error) {
+        //            // 提交失敗後的處理邏輯
+        //            // 可以顯示錯誤訊息或執行其他處理邏輯
+        //        }
+        //    });
+        //});
+    });
+
+
+    function showFileInfo() {
+        const fileInput = document.getElementById('fileInput');
+        const fileInfoname = document.getElementById('fileInfoname');
+        const fileInfonsize = document.getElementById('fileInfosize');
+
+        const file = fileInput.files[0];
+
+        if (file) {
+            fileInfoname.textContent = `檔案名稱: ${file.name}`;
+            fileInfosize.textContent = `大小: ${formatSize(file.size)}`;
+        } else {
+            fileInfoname.textContent = '';
+            fileInfosize.textContent = '';
+        }
+    }
+
+    function formatSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) return '0 Byte';
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
+    }
+
+    function getContent() {
+        return ClassicEditor
+            .instances
+            .editor
+            .getData();
+    }
+
+    function ContentChange() {
+        var content = getContent();
+        document.getElementById("KnowlegeContent").value = content;
+    }
+</script>
+<style>
+    #editor {
+        height: 500px;
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

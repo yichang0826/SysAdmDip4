@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,8 @@ using SysAdmDip4.Models.System;
 
 namespace SysAdmDip4.Controllers
 {
-    [TypeFilter(typeof(CustomAuthorizationFilter))]
+    //[Authorize]
+    //[TypeFilter(typeof(CustomAuthorizationFilter))]
     public class MembersController : Controller
     {
         private readonly SysAdmDip4Context _context;
@@ -39,7 +41,7 @@ namespace SysAdmDip4.Controllers
 
             //var member = await _context.Member
             //    .Include(m => m.Member_Role)
-                //.FirstOrDefaultAsync(m => m.Member_Id == id);
+            //.FirstOrDefaultAsync(m => m.Member_Id == id);
             var member = await _context.Member.FirstOrDefaultAsync(m => m.Member_Id == id);
             if (member == null)
             {
@@ -92,7 +94,8 @@ namespace SysAdmDip4.Controllers
             {
                 return NotFound();
             }
-            ViewData["Member_RoleId"] = new SelectList(_context.Set<Role>(), "Role_Id", "Role_Id", member.Member_RoleId);
+            ViewData["Member_RoleId"] = new SelectList(_context.Set<Role>(), "Role_Id", "Role_Name", member.Member_RoleId);
+            await _context.SaveChangesAsync();
             return View(member);
         }
 
@@ -101,7 +104,7 @@ namespace SysAdmDip4.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Member_Id,Member_Name,Member_Account,Member_Password,Member_Email,Member_RoleId,Member_Active,Member_CreaterId,Member_CreateDate")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("Member_Id,Member_Name,Member_Account,Member_Password,Member_Email,Member_RoleId,Member_Active,Member_CreaterId")] Member member)
         {
             if (id != member.Member_Id)
             {
@@ -112,7 +115,22 @@ namespace SysAdmDip4.Controllers
             {
                 try
                 {
-                    _context.Update(member);
+                    var excistmember = _context.Member.Find(id);
+                    if (excistmember != null)
+                    {
+                        excistmember.Member_Name = member.Member_Name;
+                        excistmember.Member_Account = member.Member_Account;
+                        excistmember.Member_Password = member.Member_Password;
+                        excistmember.Member_Email = member.Member_Email;
+                        excistmember.Member_RoleId = member.Member_RoleId;
+                        excistmember.Member_Active = member.Member_Active;
+                    };
+                    //_context.Entry(excistmember).State = EntityState.Modified;
+                    //_context.Update(excistmember);
+
+                    //_context.Attach(member);
+                    //_context.Entry(member).State = EntityState.Modified;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -128,8 +146,30 @@ namespace SysAdmDip4.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Member_RoleId"] = new SelectList(_context.Set<Role>(), "Role_Id", "Role_Id", member.Member_RoleId);
             return View(member);
+            //try
+            //{
+            //    var excistmember = _context.Member.FirstOrDefault(m => m.Member_Id == id);
+            //    if (excistmember != null)
+            //    {
+            //        member.Member_CreaterId = excistmember.Member_CreaterId;
+            //        member.Member_CreateDate = excistmember.Member_CreateDate;
+            //    }
+            //    _context.Update(member);
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!MemberExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+            //return RedirectToAction(nameof(Index));
         }
 
         // GET: Members/Delete/5
@@ -165,14 +205,14 @@ namespace SysAdmDip4.Controllers
             {
                 _context.Member.Remove(member);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MemberExists(int id)
         {
-          return (_context.Member?.Any(e => e.Member_Id == id)).GetValueOrDefault();
+            return (_context.Member?.Any(e => e.Member_Id == id)).GetValueOrDefault();
         }
     }
 }

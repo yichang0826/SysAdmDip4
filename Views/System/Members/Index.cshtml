@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "_LayoutAdmin";
 }
 
 <h1>Index</h1>
@@ -24,9 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Member_Email)
             </th>
-@*            <th>
-                @Html.DisplayNameFor(model => model.Member_Role)
-            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Member_RoleId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Member_Active)
             </th>
@@ -54,9 +55,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Member_Email)
             </td>
-@*            <td>
-                @Html.DisplayFor(modelItem => item.Member_Role.Role_Id)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Member_RoleId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Member_Active)
             </td>

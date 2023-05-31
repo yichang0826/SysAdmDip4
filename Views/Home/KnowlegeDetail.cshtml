@@ -1,0 +1,176 @@
+﻿@model SysAdmDip4.Models.Article.Knowlege
+
+@{
+    ViewData["Title"] = "KnowlegeDetail";
+}
+
+
+@*<h1>KnowlegeDetail</h1>
+<div>
+    <h3 class="col-6">@Html.DisplayFor(model => model.Knowlege_Title)</h3>
+    <a asp-action="Index" class="btn btn-primary">回到列表</a>
+    <hr />
+    <div class="row">
+        <div class="col-4">
+            作者 : @Html.DisplayFor(model => model.Knowlege_Author)
+        </div>
+        <div class="col-4">
+            透明度:
+            @if (Model.Knowlege_Transparency == 1)
+            {
+                <label>草稿</label>
+            }
+            else if (Model.Knowlege_Transparency == 2)
+            {
+                <label>私人</label>
+            }
+            else if (Model.Knowlege_Transparency == 3)
+            {
+                <label>公開</label>
+            }
+            else
+            {
+                <label>其他</label>
+            }
+        </div>
+        <div class="col-4">
+            創建日期:
+            @Html.DisplayFor(model => model.Knowlege_CreateDate)
+        </div>
+    </div>
+    <div class="col">
+        文章簡介:
+        <p class="card">@Html.DisplayFor(model => model.Knowlege_Introduction)</p>
+    </div>
+    <div class="col" >
+        文章:
+        <p class="card" style="text-align:center">@Html.Raw(Model.Knowlege_Content)</p>
+    </div>
+    <div class="col">
+        文章檔案:
+        <div>@Html.DisplayFor(model => model.Knowlege_FileSrc)</div>
+    </div>
+    @if (Model.Knowlege_Classify.Any())
+    {
+        foreach (var classes in Model.Knowlege_Classify)
+        {
+            @classes.Classify_Name
+        }
+    }
+    @if (Model.Knowlege_Comment.Any())
+    {
+        foreach (var comment in Model.Knowlege_Comment)
+        {
+            @comment.Comment_Text
+        }
+    }
+</div>*@
+
+<h1>KnowlegeDetail</h1>
+
+<div class="knowlege-detail">
+    <h3 class="col-6">@Html.DisplayFor(model => model.Knowlege_Title)</h3>
+    <a asp-action="Index" class="btn btn-primary">回到列表</a>
+    <hr />
+    <div class="row">
+        <div class="col-4">
+            <strong>作者:</strong> @Html.DisplayFor(model => model.Knowlege_Author)
+        </div>
+        <div class="col-4">
+            <strong>透明度:</strong>
+            @if (Model.Knowlege_Transparency == 1)
+            {
+                <label>草稿</label>
+            }
+            else if (Model.Knowlege_Transparency == 2)
+            {
+                <label>私人</label>
+            }
+            else if (Model.Knowlege_Transparency == 3)
+            {
+                <label>公開</label>
+            }
+            else
+            {
+                <label>其他</label>
+            }
+        </div>
+        <div class="col-4">
+            <strong>創建日期:</strong> @Html.DisplayFor(model => model.Knowlege_CreateDate)
+        </div>
+    </div>
+    <div class="col">
+        <strong>文章簡介:</strong>
+        <p class="card">@Html.DisplayFor(model => model.Knowlege_Introduction)</p>
+    </div>
+    <div class="col">
+        <strong>文章:</strong>
+        <p class="card" style="text-align:center">@Html.Raw(Model.Knowlege_Content)</p>
+    </div>
+    <div class="col">
+        <strong>文章檔案:</strong>
+        <div>@Html.DisplayFor(model => model.Knowlege_FileSrc)</div>
+    </div>
+    @if (Model.Knowlege_Classify.Any())
+    {
+        <div class="col">
+            <strong>分類:</strong>
+            @foreach (var classes in Model.Knowlege_Classify)
+            {
+                <span class="badge badge-primary">@classes.Classify_Name</span>
+            }
+        </div>
+    }
+    @if (Model.Knowlege_Comment.Any())
+    {
+        <div class="col">
+            <strong>評論:</strong>
+            @foreach (var comment in Model.Knowlege_Comment)
+            {
+                <div class="card">@comment.Comment_Text</div>
+            }
+        </div>
+    }
+</div>
+
+<form asp-action="knolegeComment" asp-controller="Knowleges">
+    <div class="row">
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_Title" class="control-label"></label>
+            <input asp-for="Knowlege_Title" class="form-control" />
+            <span asp-validation-for="Knowlege_Title" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="Knowlege_Author" class="control-label"></label>
+            <input asp-for="Knowlege_Author" class="form-control" value="@User.Identity.Name" />
+            <span asp-validation-for="Knowlege_Author" class="text-danger"></span>
+        </div>
+    </div>
+</form>
+
+<style>
+    .knowlege-detail {
+        padding: 20px;
+        background-color: #f7f7f7;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+        .knowlege-detail h3 {
+            margin-top: 0;
+        }
+
+        .knowlege-detail .col {
+            margin-bottom: 10px;
+        }
+
+        .knowlege-detail strong {
+            font-weight: bold;
+        }
+
+        .knowlege-detail .badge {
+            margin-right: 5px;
+        }
+</style>
+

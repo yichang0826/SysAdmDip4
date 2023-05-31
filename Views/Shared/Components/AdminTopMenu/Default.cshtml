@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore;
+@using SysAdmDip4.Data
+@inject SysAdmDip4Context _context
+@{
+    int? roleId;
+    if (User.Identity.IsAuthenticated)
+    {
+        roleId = _context.Member?.FirstOrDefault(m => m.Member_Name == User.Identity.Name)?.Member_RoleId;
+    }
+    else
+    {
+        roleId = 2;
+    }
+    var role = _context.Role?.Include(n => n.RoleFunctions).FirstOrDefault(n => n.Role_Id == roleId);
+    var functionIds = role?.RoleFunctions.Select(r => r.FunctionId).ToList();
+    var functions = _context.Function?.Where(f => functionIds.Contains(f.Function_Id)).ToList();
+}
+
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SysAdmDip4</a>*@
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("Members")))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Members<i class="bi bi-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                            @foreach (var item in functions.Where(m => m.Function_Controller == "Members"))
+                            {
+                                <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("Roles")))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Roles<i class="bi bi-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                            @foreach (var item in functions.Where(m => m.Function_Controller == "Roles"))
+                            {
+                                <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("Functions")))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Functions<i class="bi bi-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                            @foreach (var item in functions.Where(m => m.Function_Controller == "Functions"))
+                            {
+                                <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (User.Identity.IsAuthenticated && functions != null && functions.Any(r => r.Function_Controller.Contains("ExternalLinks")))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ExternalLinks<i class="bi bi-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                            @foreach (var item in functions.Where(m => m.Function_Controller == "ExternalLinks"))
+                            {
+                                <li><a class="dropdown-item" asp-controller=@item.Function_Controller asp-action=@item.Function_Page>@item.Function_Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black">
+                    <strong>@User.Identity.Name</strong><i class="bi bi-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Guest</a></li>
+                    <li><form asp-action="Logout" asp-controller="Home"><button class="dropdown-item" type="submit"><small>Logout</small></button></form></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <a class="navbar-brand" asp-controller="Home" asp-action="Login">Login</a>
+        }
+    </div>
+</nav>

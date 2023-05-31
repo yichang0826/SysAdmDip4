@@ -1,0 +1,67 @@
+﻿@model SysAdmDip4.Models.Article.Knowlege
+
+@{
+    ViewData["Title"] = "Details";
+
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Knowlege</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_Author)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_Introduction)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_Introduction)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_Content)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_Content)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_FileSrc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_FileSrc)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_Transparency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_Transparency)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_CreaterId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_CreaterId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Knowlege_CreateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Knowlege_CreateDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Knowlege_Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
